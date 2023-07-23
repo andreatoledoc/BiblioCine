@@ -1,0 +1,27 @@
+{% extends 'AppBiblioCine/padre.html' %}
+
+{% load static %}
+
+{% block CAMBIOS %}
+
+    <!-- En este lugar va lo que cambia y se asocia a la vista-->
+    {% if miFormualrio.errors %}
+        <p style="color: red;">Están mal los datos, revisar</p> 
+    {% endif %}
+
+    <p> Estamos buscando el autor: {{autor}}</p>
+
+    {% if libros %}
+        <ul>
+            {% for libro in libros %}
+                <li> {{libro.titulo}}</li>
+                <li> {{libro.autor}}</li>
+            {% endfor %}
+        </ul>
+    
+    {% else %}
+        <p>No hay datos con esa descripcion</p>
+    {% endif %}
+    <p style="color: red;">{{respuesta}}</p>
+
+{% endblock %}

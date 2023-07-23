@@ -1,0 +1,17 @@
+{% extends 'AppBiblioCine/padre.html' %}
+
+{% load static %}
+
+{% block CAMBIOS %}
+
+    {% if miFormualrio.errors %}
+        <p style="color: red;">Están mal los datos, revisar</p> 
+    {% endif %}
+
+    <form action="/AppBiblioCine/buscar/" method="GET">
+        <input type="text" name="autor" id="autor">
+        <input type="submit" value="Buscar">
+    </form>
+
+
+{% endblock %}

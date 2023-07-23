@@ -9,11 +9,25 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Peliculas</title>
+        <title>Formulario para AGREGAR peliculas</title>
     </head>
     <body>
-        Vista de peliculas
+        {% if miFormulario.errors %}
+            <p style="color: red;"> Están mal los datos, revisar</p>
+        {% endif %}
+
+        <form action="" method="POST">{% csrf_token %}
+            <!-- Aca van los elementos de Djando-->
+
+            <table>
+                {{ miFormulario.as_table }}
+            </table>
+
+            <input type="submit" value="Enviar">
+        </form>
     </body>
     </html>
+
+
 
 {% endblock %}
