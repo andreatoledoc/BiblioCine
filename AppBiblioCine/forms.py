@@ -17,7 +17,6 @@ class ComentarioLibroFormulario (forms.Form):
     libro = forms.ModelChoiceField(queryset=Libro.objects.all())
     nombre = forms.CharField()
     comentario = forms.CharField()
-    fechaComentario = forms.DateTimeField()
 
 #Peliculas
 
