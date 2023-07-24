@@ -7,11 +7,34 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy #Me permite que los objetos se carguen background
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 #Inicio
 
 def inicio(request):
     return render (request, "AppBiblioCine/inicio.html")
+
+#Login
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data = request.POST)
+
+        if form.is_valid():
+            usuario = form.cleaned_data.get('username')
+            contras = form.cleaned_data.get('password')
+
+            user = authenticate(username=usuario, password=contras)
+
+            if user is not None:
+                login(request, user)
+                return render (request, 'AppBiblioCine/inicio.html', {'mensaje': f"Bienvenido {usuario}"})
+
+            else:
+                return render (request, 'AppBiblioCine/inicio.html', {"mensaje": "Error, datos erroneos"})
+        else:
+            return render (request, 'AppBiblioCine/inicio.html', {'mensaje': 'Error, formulario erroneo'})
 
 ###LIBROS
 

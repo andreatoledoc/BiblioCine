@@ -23,4 +23,5 @@ urlpatterns = [
     path (r'^nuevo$', views.LibroCreacion.as_view(), name='New'),
     path (r'^editar/(?P<pk>\d+)$', views.LibroUpdate.as_view(), name='Edit'),
     path (r'^borrar/(?P<pk>\d+)$', views.LibroDelete.as_view(), name='Delete'),
+    path( 'login', views.login_request, name='Login'),
 ]

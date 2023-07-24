@@ -1,0 +1,26 @@
+{% extends 'AppBiblioCine/padre.html' %}
+
+{% load static %}
+
+{% block CAMBIOS %}
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login de usuarios</title>
+    </head>
+    <body>
+        <form action="" method = "POST">
+            {% csrf_token %}
+
+                {{ form.as_p }}
+        
+            <button type="submit">Iniciar sesión</button>
+        </form>
+
+    </body>
+    </html>
+
+{% endblock %}

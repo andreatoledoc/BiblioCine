@@ -4,16 +4,11 @@
 
 {% block CAMBIOS %}
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Inicio</title>
-    </head>
-    <body>
-        Vista de inicio
-    </body>
-    </html>
+    {{mensaje}}
+
+    <div class = "text-center">
+        <img height="40px" src="{{url}}" >
+        <h3> Que bueno verte {{user.username}}</h3>
+    </div>
 
 {% endblock %}
