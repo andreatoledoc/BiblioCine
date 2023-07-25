@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from AppBiblioCine.models import Libro, Pelicula, ComentarioLibro
 from django.http import HttpResponse
-from AppBiblioCine.forms import LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario
+from AppBiblioCine.forms import UserEditForm, UserRegisterForm, LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario
 from django.utils import timezone
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -9,14 +9,16 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy #Me permite que los objetos se carguen background
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 #Inicio
-
+@login_required
 def inicio(request):
     return render (request, "AppBiblioCine/inicio.html")
 
 #Login
-
 def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data = request.POST)
@@ -29,12 +31,59 @@ def login_request(request):
 
             if user is not None:
                 login(request, user)
-                return render (request, 'AppBiblioCine/inicio.html', {'mensaje': f"Bienvenido {usuario}"})
+                return render (request, 'AppBiblioCine/inicio.html', {'mensaje': f"Bienvenido {usuario}", 'user': user, 'login_success': True})
 
             else:
-                return render (request, 'AppBiblioCine/inicio.html', {"mensaje": "Error, datos erroneos"})
+                return render(request, 'AppBiblioCine/inicio.html', {"mensaje": "Error, datos erroneos", 'login_success': False})
         else:
-            return render (request, 'AppBiblioCine/inicio.html', {'mensaje': 'Error, formulario erroneo'})
+            return render(request, 'AppBiblioCine/inicio.html', {'mensaje': 'Error, formulario erroneo', 'form': form, 'login_success': False})
+    
+    form = AuthenticationForm()
+
+    return render (request, 'AppBiblioCine/login.html', {'form': form})
+
+#Registro
+def register (request):
+    if request.method == "POST":
+        form = UserRegisterForm(request.POST)
+
+        if form.is_valid():
+
+            username = form.cleaned_data['username']
+            form.save()
+            messages.success(request, f"Usuario {username} creado exitosamente.")
+            return redirect('Inicio')  # Redireccionamos a la página de inicio
+        
+    else:
+        form = UserRegisterForm()
+
+    return render (request, "AppBiblioCine/registro.html", {"form":form})
+
+#EditarPerfil
+def editarPerfil(request):
+    usuario = request.user 
+
+    if request.method == 'POST':
+        miFormulario = UserEditForm(request.POST)
+        print(miFormulario)
+        if miFormulario.is_valid:
+
+            informacion = miFormulario.cleaned_data
+            
+            usuario.email = informacion['email']
+            usuario.first_name = informacion['first_name']
+            usuario.last_name = informacion['last_name']
+            usuario.password1 = informacion['password1']
+            usuario.password1 = informacion['password2']
+            usuario.save()
+
+            #return HttpResponseRedirect('/AppBiblioCine/login/')
+            return render(request, 'AppBiblioCine/inicio.html')
+    else:
+        miFormulario = UserEditForm(initial={'email':usuario.email})
+
+    return render(request, "AppBiblioCine/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
+
 
 ###LIBROS
 

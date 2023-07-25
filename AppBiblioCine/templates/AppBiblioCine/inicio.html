@@ -3,12 +3,22 @@
 {% load static %}
 
 {% block CAMBIOS %}
+    <div class="text-center">
+        {% if messages.success %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
 
-    {{mensaje}}
 
-    <div class = "text-center">
-        <img height="40px" src="{{url}}" >
-        <h3> Que bueno verte {{user.username}}</h3>
+        {% if not login_success and not not messages.success %}
+            {{ mensaje }}
+            <img height="40px" src="{{ url }}">
+            <h3>UPS! Inténtalo de nuevo.</h3>
+        {% elif login_success %}
+            {{ mensaje }}
+            <img height="40px" src="{{ url }}">
+            <h3> Que bueno verte {{ user.username }}</h3>
+        {% endif %}
     </div>
-
 {% endblock %}

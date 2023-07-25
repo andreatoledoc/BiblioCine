@@ -24,4 +24,7 @@ urlpatterns = [
     path (r'^editar/(?P<pk>\d+)$', views.LibroUpdate.as_view(), name='Edit'),
     path (r'^borrar/(?P<pk>\d+)$', views.LibroDelete.as_view(), name='Delete'),
     path( 'login', views.login_request, name='Login'),
+    path ('register', views.register, name = "Register"),
+    path ('logout', LogoutView.as_view (template_name='AppBiblioCine/logout.html'), name='Logout'),
+    path('editarPerfil', views.editarPerfil, name='EditarPerfil'),
 ]

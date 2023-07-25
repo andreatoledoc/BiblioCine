@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 #Libros
 
@@ -11,7 +12,7 @@ class Libro(models.Model):
     sinopsis = models.TextField()
     genero = models.CharField(max_length=150)
     idioma = models.CharField(max_length=50)
-    portada = models.ImageField(upload_to='media/libros/')
+    portada = models.ImageField(upload_to='libros/')
 
     def __str__(self):
         return f"Titulo: {self.titulo} - Autor: {self.autor} - Género: {self.genero}"
@@ -37,7 +38,7 @@ class Pelicula (models.Model):
     sinopsis = models.TextField()
     genero = models.CharField(max_length=150)
     duracion = models.IntegerField()
-    portada = models.ImageField(upload_to='media/peliculas/')
+    portada = models.ImageField(upload_to='peliculas/')
 
     def __str__(self):
         return f"Titulo: {self.titulo} - Director: {self.director} - Género: {self.genero}"
@@ -53,6 +54,12 @@ class ComentarioPelicula(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.nombre, self.comentario)
+    
+#Avatar
+
+class Avatar(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to='avatares', null=True, blank=True)
 
 
 
