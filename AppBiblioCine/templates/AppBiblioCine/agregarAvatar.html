@@ -10,19 +10,17 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Comentarios</title>
+        <title>Document</title>
     </head>
     <body>
-        {% for c in comentarios %}
-            <li>{{c}}</li>
-            <button>
-                <a href="{% url 'EliminarComentarioLibros' c.comentario %}">Eliminar</a>
-            </button>
-            
-        {% endfor %}
-        <br>
-        <a href="{% url 'ComentarioLibros' %}">Agregar nuevo comentario</a>
+        <h3>Cargar avatar</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ miFormulario.as_p }}
+            <input type="submit" value="Actualizar">
+        </form>
     </body>
     </html>
+
 
 {% endblock %}

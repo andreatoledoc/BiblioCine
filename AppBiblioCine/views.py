@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from AppBiblioCine.models import Libro, Pelicula, ComentarioLibro
+from AppBiblioCine.models import Libro, Pelicula, ComentarioLibro, Avatar
 from django.http import HttpResponse
-from AppBiblioCine.forms import UserEditForm, UserRegisterForm, LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario
+from AppBiblioCine.forms import AvatarFormulario, UserEditForm, UserRegisterForm, LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario
 from django.utils import timezone
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -12,11 +12,14 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
 
 #Inicio
 @login_required
 def inicio(request):
-    return render (request, "AppBiblioCine/inicio.html")
+    avatares = Avatar.objects.filter(user=request.user.id)
+    print (avatares)
+    return render(request, 'AppBiblioCine/inicio.html', {'url':avatares[0].imagen.url})
 
 #Login
 def login_request(request):
@@ -84,12 +87,27 @@ def editarPerfil(request):
 
     return render(request, "AppBiblioCine/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
 
+#Avatar
+
+@login_required
+def agregarAvatar(request):
+    if request.method == 'POST':
+        miFormulario = AvatarFormulario(request.POST, request.FILES)
+        if miFormulario.is_valid():
+            u = User.objects.get(username=request.user)
+            avatar = Avatar(user=u, imagen=miFormulario.cleaned_data['imagen'])
+            avatar.save()
+
+            return render(request, 'AppBiblioCine/inicio.html')
+    else:
+        miFormulario = AvatarFormulario()
+    return render(request, 'AppBiblioCine/agregarAvatar.html', {'miFormulario':miFormulario})
 
 ###LIBROS
 
 def libros(request):
     if request.method == "POST":
-        miFormulario = LibroFormulario (request.POST)
+        miFormulario = LibroFormulario (request.POST, request.FILES)
         print(miFormulario)
 
         if miFormulario.is_valid():
@@ -155,6 +173,7 @@ def leerLibros(request):
 def leerComentarioLibros(request):
     comentarios = ComentarioLibro.objects.all()
     contexto = {"comentarios":comentarios}
+    print(comentarios)
     return render(request, "AppBiblioCine/leerComentariosLibros.html", contexto)
 
 #Delete
@@ -241,11 +260,8 @@ class LibroDelete (DeleteView):
 ###PELICULAS
 
 def peliculas(request):
-    return render (request, "AppBiblioCine/peliculas.html")
-
-def peliculas(request):
     if request.method == "POST":
-        miFormulario = PeliculaFormulario (request.POST)
+        miFormulario = PeliculaFormulario (request.POST, request.FILES)
         print(miFormulario)
 
         if miFormulario.is_valid():
@@ -263,4 +279,3 @@ def peliculas(request):
     else:
         miFormulario=PeliculaFormulario()
     return render (request, "AppBiblioCine/peliculas.html", {"miFormulario": miFormulario})
-
