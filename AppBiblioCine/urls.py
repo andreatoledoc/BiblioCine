@@ -5,7 +5,6 @@ from django.contrib.auth.views import LogoutView
 from AppBiblioCine import views
 
 urlpatterns = [
-    path('', views.inicio, name='Inicio'),
     path('libros/', views.libros, name='Libros'),
     path('comentarioLibros/', views.comentarioLibros, name='ComentarioLibros'),
     #path('libroFormulario/', views.libroFormulario, name='LibroFormulario'),
@@ -23,9 +22,4 @@ urlpatterns = [
     path (r'^nuevo$', views.LibroCreacion.as_view(), name='New'),
     path (r'^editar/(?P<pk>\d+)$', views.LibroUpdate.as_view(), name='Edit'),
     path (r'^borrar/(?P<pk>\d+)$', views.LibroDelete.as_view(), name='Delete'),
-    path( 'login', views.login_request, name='Login'),
-    path ('register', views.register, name = "Register"),
-    path ('logout', LogoutView.as_view (template_name='AppBiblioCine/logout.html'), name='Logout'),
-    path('editarPerfil', views.editarPerfil, name='EditarPerfil'),
-    path('agregarAvatar', views.agregarAvatar, name='AgregarAvatar'),
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from AppBiblioCine.models import Libro, Pelicula, ComentarioLibro, Avatar
+from AppBiblioCine.models import Libro, Pelicula, ComentarioLibro
 from django.http import HttpResponse
-from AppBiblioCine.forms import AvatarFormulario, UserEditForm, UserRegisterForm, LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario
+from AppBiblioCine.forms import LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario
 from django.utils import timezone
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -14,94 +14,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 
-#Inicio
-@login_required
-def inicio(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
-    print (avatares)
-    return render(request, 'AppBiblioCine/inicio.html', {'url':avatares[0].imagen.url})
-
-#Login
-def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data = request.POST)
-
-        if form.is_valid():
-            usuario = form.cleaned_data.get('username')
-            contras = form.cleaned_data.get('password')
-
-            user = authenticate(username=usuario, password=contras)
-
-            if user is not None:
-                login(request, user)
-                return render (request, 'AppBiblioCine/inicio.html', {'mensaje': f"Bienvenido {usuario}", 'user': user, 'login_success': True})
-
-            else:
-                return render(request, 'AppBiblioCine/inicio.html', {"mensaje": "Error, datos erroneos", 'login_success': False})
-        else:
-            return render(request, 'AppBiblioCine/inicio.html', {'mensaje': 'Error, formulario erroneo', 'form': form, 'login_success': False})
-    
-    form = AuthenticationForm()
-
-    return render (request, 'AppBiblioCine/login.html', {'form': form})
-
-#Registro
-def register (request):
-    if request.method == "POST":
-        form = UserRegisterForm(request.POST)
-
-        if form.is_valid():
-
-            username = form.cleaned_data['username']
-            form.save()
-            messages.success(request, f"Usuario {username} creado exitosamente.")
-            return redirect('Inicio')  # Redireccionamos a la página de inicio
-        
-    else:
-        form = UserRegisterForm()
-
-    return render (request, "AppBiblioCine/registro.html", {"form":form})
-
-#EditarPerfil
-def editarPerfil(request):
-    usuario = request.user 
-
-    if request.method == 'POST':
-        miFormulario = UserEditForm(request.POST)
-        print(miFormulario)
-        if miFormulario.is_valid:
-
-            informacion = miFormulario.cleaned_data
-            
-            usuario.email = informacion['email']
-            usuario.first_name = informacion['first_name']
-            usuario.last_name = informacion['last_name']
-            usuario.password1 = informacion['password1']
-            usuario.password1 = informacion['password2']
-            usuario.save()
-
-            #return HttpResponseRedirect('/AppBiblioCine/login/')
-            return render(request, 'AppBiblioCine/inicio.html')
-    else:
-        miFormulario = UserEditForm(initial={'email':usuario.email})
-
-    return render(request, "AppBiblioCine/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
-
-#Avatar
-
-@login_required
-def agregarAvatar(request):
-    if request.method == 'POST':
-        miFormulario = AvatarFormulario(request.POST, request.FILES)
-        if miFormulario.is_valid():
-            u = User.objects.get(username=request.user)
-            avatar = Avatar(user=u, imagen=miFormulario.cleaned_data['imagen'])
-            avatar.save()
-
-            return render(request, 'AppBiblioCine/inicio.html')
-    else:
-        miFormulario = AvatarFormulario()
-    return render(request, 'AppBiblioCine/agregarAvatar.html', {'miFormulario':miFormulario})
 
 ###LIBROS
 
@@ -122,11 +34,12 @@ def libros(request):
                                  portada=informacion['portada'],
                                  )
             libro.save()
-            return render(request, 'AppBiblioCine/inicio.html') 
+            return render(request, 'AppAdministracion/inicio.html') 
     else:
         miFormulario=LibroFormulario()
     return render (request, "AppBiblioCine/libros.html", {"miFormulario": miFormulario})
 
+@login_required
 def comentarioLibros(request):
     if request.method == "POST":
         miFormulario = ComentarioLibroFormulario (request.POST)
@@ -135,12 +48,12 @@ def comentarioLibros(request):
         if miFormulario.is_valid():
             informacion=miFormulario.cleaned_data
             comentariolibro = ComentarioLibro (libro = informacion['libro'], 
-                                 nombre=informacion['nombre'], 
+                                 nombre=request.user, 
                                  comentario=informacion['comentario'], 
                                  )
             comentariolibro.save()
 
-            return render(request, 'AppBiblioCine/inicio.html')
+            return render(request, 'AppAdministracion/inicio.html')
 
     else:
         miFormulario=ComentarioLibroFormulario()
@@ -161,7 +74,7 @@ def buscar(request):
     else:  
         respuesta="No enviaste datos"
             
-    return render (request, "AppBiblioCine/inicio.html", {"respuesta": respuesta})
+    return render (request, "AppAdministracion/inicio.html", {"respuesta": respuesta})
 
 #Lectura
 
@@ -200,7 +113,7 @@ def editarLibros(request, libro_titulo):
     libro = Libro.objects.get(titulo = libro_titulo)
 
     if  request.method == "POST":
-        miFormulario = LibroFormulario (request.POST)
+        miFormulario = LibroFormulario (request.POST, request.FILES)
         print (miFormulario)
 
         if miFormulario.is_valid():
@@ -218,7 +131,7 @@ def editarLibros(request, libro_titulo):
 
             libro.save()
 
-            return render (request, 'AppBiblioCine/inicio.html')
+            return render (request, 'AppAdministracion/inicio.html')
         
     else:
             miFormulario = LibroFormulario(initial={'titulo': libro.titulo,
@@ -275,7 +188,7 @@ def peliculas(request):
                                  portada=informacion['portada'],
                                  )
             pelicula.save()
-            return render(request, 'AppBiblioCine/inicio.html') 
+            return render(request, 'AppAdministracion/inicio.html') 
     else:
         miFormulario=PeliculaFormulario()
     return render (request, "AppBiblioCine/peliculas.html", {"miFormulario": miFormulario})

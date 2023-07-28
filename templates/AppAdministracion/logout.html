@@ -1,4 +1,4 @@
-{% extends 'AppBiblioCine/padre.html' %}
+{% extends 'AppAdministracion/padre.html' %}
 
 {% load static %}
 
@@ -9,17 +9,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Registro de Usuarios</title>
+        <title>Logout</title>
     </head>
     <body>
-        <form action="" method="post">
-            {% csrf_token %}
-
-                {{form.as_p}}
-
-            <button type="submit">Registrate</button>
-
-        </form>
+    <h1>Te has deslogueado</h1> 
     </body>
     </html>
 

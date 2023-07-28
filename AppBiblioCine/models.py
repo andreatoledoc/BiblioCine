@@ -15,11 +15,11 @@ class Libro(models.Model):
     portada = models.ImageField(upload_to='libros/')
 
     def __str__(self):
-        return f"Titulo: {self.titulo} - Autor: {self.autor} - Género: {self.genero}"
+        return f"Titulo: {self.titulo} - Autor: {self.autor} - Género: {self.genero} - Portada {self.portada} "
 
 class ComentarioLibro(models.Model):
     libro = models.ForeignKey(Libro, related_name='comentariosLibros', on_delete=models.CASCADE, null=True)
-    nombre = models.CharField(max_length=40)
+    nombre = models.ForeignKey(User,blank=False,null=True,on_delete=models.CASCADE, verbose_name="nombre")
     comentario = models.TextField(null=True, blank=True)
     fechaComentario = models.DateTimeField(auto_now_add=True)
 
@@ -55,11 +55,11 @@ class ComentarioPelicula(models.Model):
     def __str__(self):
         return '%s - %s' % (self.nombre, self.comentario)
     
-#Avatar
 
-class Avatar(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    imagen = models.ImageField(upload_to='avatares', null=True, blank=True)
+
+
+
+
 
 
 

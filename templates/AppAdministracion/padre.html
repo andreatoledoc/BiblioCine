@@ -31,16 +31,21 @@
                 </button>
 
                 <div class="container">
-                    <a class="navbar-brand" href="{% url 'Libros' %}">Libros</a>
+                    <a class="navbar-brand" href="{% url 'LeerLibros' %}">Libros</a>
                     <a class="navbar-brand" href="{% url 'Peliculas' %}">Peliculas</a>
                 </div>
                 
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Sample Post</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Inicio' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'AboutMe' %}">About Me</a></li>
+                        {% if not request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Login' %}">Login</a></li>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}  
+                            <p class = "text-muted small mb-4 mb-lg-0"> Hola, {{user.username}}</p>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Logout' %}">Logout</a></li>
                     </ul>
                 </div>
             </div>
