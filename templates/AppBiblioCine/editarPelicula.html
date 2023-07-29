@@ -1,0 +1,25 @@
+{% extends 'AppAdministracion/padre.html' %}
+
+{% load static %}
+
+{% block CAMBIOS %}
+
+    <!-- Aqui va el contenido que cambia-->
+    <h1>Formulario - Editar Pelicula</h1>
+
+    {% if miFormulario.errors %}
+
+        <p style="color: red;">Están mal los datos, revisar</p>
+
+    {% endif %}
+
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <!-- Acá está la magia de Django-->
+
+        <table>
+            {{miFormulario.as_table}}
+        </table>
+        <input type="submit", value="Enviar">
+    </form>
+
+{% endblock %}

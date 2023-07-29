@@ -4,6 +4,7 @@
 
 {% block CAMBIOS %}
 
+<!--
     {% if miFormualrio.errors %}
         <p style="color: red;">Están mal los datos, revisar</p> 
     {% endif %}
@@ -11,6 +12,18 @@
     <form action="/AppBiblioCine/buscar/" method="GET">
         <input type="text" name="autor" id="autor">
         <input type="submit" value="Buscar">
+    </form>
+
+-->
+
+    <form action="{% url 'BuscarLibro' %}" method="GET">
+        <select name="campo">
+            <option value="autor">Autor</option>
+            <option value="titulo">Título</option>
+            <option value="genero">Genero</option>
+        </select>
+        <input type="text" name="termino" />
+        <input type="submit" value="Buscar" />
     </form>
 
 

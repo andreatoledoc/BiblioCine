@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from AppBiblioCine.models import Libro, Pelicula, ComentarioLibro
+from AppBiblioCine.models import Libro, Pelicula, ComentarioLibro, ComentarioPelicula
 from django.http import HttpResponse
-from AppBiblioCine.forms import LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario
+from AppBiblioCine.forms import LibroFormulario, PeliculaFormulario, ComentarioLibroFormulario, ComentarioPeliculaFormulario
 from django.utils import timezone
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -32,6 +32,7 @@ def libros(request):
                                  genero=informacion['genero'],
                                  idioma=informacion['idioma'],
                                  portada=informacion['portada'],
+                                 recomendacion=informacion['recomendacion'],
                                  )
             libro.save()
             return render(request, 'AppAdministracion/inicio.html') 
@@ -57,24 +58,32 @@ def comentarioLibros(request):
 
     else:
         miFormulario=ComentarioLibroFormulario()
-    return render (request, "AppBiblioCine/comentarioslibros.html", {"miFormulario": miFormulario})
+    return render (request, "AppBiblioCine/comentariosLibros.html", {"miFormulario": miFormulario})
 
 #CRUD
 
 #Busqueda
 
-def busquedaAutor(request):
-     return render(request, 'AppBiblioCine/busquedaAutor.html')
+def busquedaLibro(request):
+     return render(request, 'AppBiblioCine/busquedaLibro.html')
 
-def buscar(request):
-    if request.GET["autor"]:
-          autor = request.GET['autor']
-          libros = Libro.objects.filter(autor__icontains = autor)
-          return render(request, 'AppBiblioCine/resultadosBusqueda.html', {'libros': libros, 'autor': autor})
-    else:  
-        respuesta="No enviaste datos"
-            
-    return render (request, "AppAdministracion/inicio.html", {"respuesta": respuesta})
+def buscarLibro(request):
+    campo = request.GET.get("campo")
+    termino = request.GET.get("termino")
+
+    if campo and termino:
+        if campo == "autor":
+            libros = Libro.objects.filter(autor__icontains=termino)
+        elif campo == "titulo":
+            libros = Libro.objects.filter(titulo__icontains=termino)
+        elif campo == "genero":
+            libros = Libro.objects.filter(genero__icontains=termino)
+        else:
+            libros = []
+    else:
+        libros = []
+
+    return render(request, 'AppBiblioCine/resultadosBusquedaLibro.html', {'libros': libros, 'termino': termino, 'campo': campo})
 
 #Lectura
 
@@ -128,6 +137,7 @@ def editarLibros(request, libro_titulo):
             libro.genero = informacion['genero']
             libro.idioma = informacion['idioma']
             libro.portada = informacion['portada']
+            libro.recomendacion = informacion['recomendacion']
 
             libro.save()
 
@@ -141,10 +151,33 @@ def editarLibros(request, libro_titulo):
                                                        'sinopsis': libro.sinopsis,
                                                        'genero': libro.genero,
                                                        'idioma': libro.idioma,
-                                                       'portada': libro.portada})
+                                                       'portada': libro.portada,
+                                                       'recomendacion': libro.recomendacion})
                         
             
     return render (request, 'AppBiblioCine/editarLibro.html', {'miFormulario': miFormulario, 'libro_titulo': libro_titulo})
+
+def editarComentarioLibros(request, comentario_comentario):
+    comentario = ComentarioLibro.objects.get(comentario = comentario_comentario)
+
+    if  request.method == "POST":
+        miFormulario = ComentarioLibroFormulario (request.POST)
+        print (miFormulario)
+
+        if miFormulario.is_valid():
+
+            informacion = miFormulario.cleaned_data
+
+            comentario.comentario = informacion['comentario']
+            comentario.save()
+
+            return render (request, 'AppAdministracion/inicio.html')
+        
+    else:
+            miFormulario = ComentarioLibro(initial={'comentario': comentario.comentario})
+                                    
+    return render (request, 'AppBiblioCine/editarComentarioLibro.html', {'miFormulario': miFormulario, 'comentario_comentario': comentario_comentario})
+
 
 #Clases basadas en vistas
 
@@ -186,9 +219,114 @@ def peliculas(request):
                                  genero=informacion['genero'],
                                  duracion=informacion['duracion'],
                                  portada=informacion['portada'],
+                                 recomendacion=informacion['recomendacion'],
                                  )
             pelicula.save()
             return render(request, 'AppAdministracion/inicio.html') 
     else:
         miFormulario=PeliculaFormulario()
     return render (request, "AppBiblioCine/peliculas.html", {"miFormulario": miFormulario})
+
+@login_required
+def comentarioPeliculas(request):
+    if request.method == "POST":
+        miFormulario = ComentarioPeliculaFormulario (request.POST)
+        print(miFormulario)
+
+        if miFormulario.is_valid():
+            informacion=miFormulario.cleaned_data
+            comentariopelicula = ComentarioPelicula (pelicula = informacion['pelicula'], 
+                                 nombre=request.user, 
+                                 comentario=informacion['comentario'], 
+                                 )
+            comentariopelicula.save()
+
+            return render(request, 'AppAdministracion/inicio.html')
+
+    else:
+        miFormulario=ComentarioPeliculaFormulario()
+    return render (request, "AppBiblioCine/comentariosPeliculas.html", {"miFormulario": miFormulario})
+
+#CRUD
+
+#Busqueda
+
+def busquedaPelicula(request):
+     return render(request, 'AppBiblioCine/busquedaPelicula.html')
+
+def buscarPelicula(request):
+    campo = request.GET.get("campo")
+    termino = request.GET.get("termino")
+
+    if campo and termino:
+        if campo == "director":
+            peliculas = Pelicula.objects.filter(director__icontains=termino)
+        elif campo == "titulo":
+            peliculas = Pelicula.objects.filter(titulo__icontains=termino)
+        elif campo == "genero":
+            peliculas = Pelicula.objects.filter(genero__icontains=termino)
+        else:
+            peliculas = []
+    else:
+        peliculas = []
+
+    return render(request, 'AppBiblioCine/resultadosBusquedaPelicula.html', {'peliculas': peliculas, 'termino': termino, 'campo': campo})
+
+#Lectura
+
+def leerPeliculas(request):
+    peliculas = Pelicula.objects.all()
+    contexto = {"peliculas":peliculas}
+    return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
+
+#Delete
+
+def eliminarPeliculas (request, pelicula_titulo):
+    pelicula = Pelicula.objects.get(titulo=pelicula_titulo)
+    pelicula.delete()
+
+    peliculas = Pelicula.objects.all()
+    contexto = {"peliculas":peliculas}
+    return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
+
+
+#Edicion
+
+def editarPeliculas(request, pelicula_titulo):
+    pelicula = Pelicula.objects.get(titulo = pelicula_titulo)
+
+    if  request.method == "POST":
+        miFormulario = PeliculaFormulario (request.POST, request.FILES)
+        print (miFormulario)
+
+        if miFormulario.is_valid():
+
+            informacion = miFormulario.cleaned_data
+
+            pelicula.titulo = informacion['titulo']
+            pelicula.director = informacion ['director']
+            pelicula.año_lanzamiento = informacion['año_lanzamiento']
+            pelicula.sinopsis = informacion['sinopsis']
+            pelicula.genero = informacion['genero']
+            pelicula.duracion = informacion['duracion']
+            pelicula.portada = informacion['portada']
+            pelicula.recomendacion = informacion['recomendacion']
+
+            pelicula.save()
+
+            return render (request, 'AppAdministracion/inicio.html')
+        
+    else:
+            miFormulario = LibroFormulario(initial={'titulo': pelicula.titulo,
+                                                       'director': pelicula.director,
+                                                       'año_lanzamiento': pelicula.año_lanzamiento,
+                                                       'sinopsis': pelicula.sinopsis,
+                                                       'genero': pelicula.genero,
+                                                       'duracion': pelicula.duracion,
+                                                       'portada': pelicula.portada,
+                                                       'recomendacion': pelicula.recomendacion})
+                        
+            
+    return render (request, 'AppBiblioCine/editarPelicula.html', {'miFormulario': miFormulario, 'pelicula_titulo': pelicula_titulo})
+
+

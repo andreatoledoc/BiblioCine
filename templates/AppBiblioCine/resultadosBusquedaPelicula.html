@@ -9,13 +9,21 @@
         <p style="color: red;">Están mal los datos, revisar</p> 
     {% endif %}
 
-    <p> Estamos buscando el autor: {{autor}}</p>
+    <p> Estamos buscando por: 
+        {% if campo == 'director' %} 
+            Director 
+        {% elif campo == 'titulo' %} 
+            Título
+        {% elif campo == 'genero' %} 
+            Género
+        {% endif %} - {{termino}}</p>
 
-    {% if libros %}
+    {% if peliculas %}
         <ul>
-            {% for libro in libros %}
-                <li> {{libro.titulo}}</li>
-                <li> {{libro.autor}}</li>
+            {% for pelicula in peliculas %}
+                <li> {{pelicula.titulo}}</li>
+                <li> {{pelicula.director}}</li>
+                <li> {{pelicula.genero}}</li>
             {% endfor %}
         </ul>
     

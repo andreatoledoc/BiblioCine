@@ -17,6 +17,7 @@
             <li>{{c}}</li>
             <button>
                 <a href="{% url 'EliminarComentarioLibros' c.comentario %}">Eliminar</a>
+                <a href="{% url 'EditarComentarioLibros' c.comentario %}">Editar</a>
             </button>
             
         {% endfor %}

@@ -10,31 +10,31 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Libros</title>
+        <title>Peliculas</title>
     </head>
     <body>
 
         <div class="container">
         <div class="row d-flex justify-content-around">
-        {% for l in libros %}
+        {% for p in peliculas %}
         <div class="card" style="width: 18rem;">
-            <img src="{{l.portada.url}}" class="card-img-top" alt="...">
+            <img src="{{p.portada.url}}" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{l.titulo}}</h5>
-              <p class="card-text m-0">Autor: {{l.autor}}</p>
-              <p class="card-text m-0">Genero: {{l.genero}}</p>
-              <a href="{% url 'Detail' l.pk %}" class="btn btn-primary">Ver recomendacion</a>
+              <h5 class="card-title">{{p.titulo}}</h5>
+              <p class="card-text m-0">Director: {{p.director}}</p>
+              <p class="card-text m-0">Genero: {{p.genero}}</p>
+              <a href="{% url 'Detail' p.pk %}" class="btn btn-primary">Ver recomendacion</a>
             </div>
             {% if user.is_superuser %}
-            <a class="btn btn-danger" href="{% url 'EliminarLibros' l.titulo %}">Eliminar</a>
-            <a class="btn btn-warning" href="{% url 'EditarLibros' l.titulo %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'EliminarPeliculas' p.titulo %}">Eliminar</a>
+            <a class="btn btn-warning" href="{% url 'EditarPeliculas' p.titulo %}">Editar</a>
             {% endif %}
           </div>
         {% endfor %}
         </div>
         </div>
         <br>
-        <a href="{% url 'ComentarioLibros' %}">Agregar nuevo comentario</a>
+        <a href="{% url 'ComentarioPeliculas' %}">Agregar nuevo comentario</a>
     </body>
     </html>
 

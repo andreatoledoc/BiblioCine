@@ -1,15 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de Libro</title>
-</head>
-<body>
+{% extends 'AppAdministracion/padre.html' %}
+{% load static %}
+
+{% block CAMBIOS %}
+
     <p>Nombre del Libro: <i>{{libro.titulo}}</i></p>
     <p>Nombre del autor: <i>{{libro.autor}}</i></p>
+    <p>Año de publicación: <i>{{libro.año_publicacion}}</i></p>
+    <p>Editorial: <i>{{libro.editorial}}</i></p>
+    <p>Sinópsis: <i>{{libro.sinopsis}}</i></p>
+    <p>Género: <i>{{libro.genero}}</i></p>
+    <p>Idioma: <i>{{libro.idioma}}</i></p>
+    <p>Recomendacion: {{libro.recomendacion}}</p>
     <p>
-        <a href="{% url 'List' %}">Regresar</a>
+        <a href="{% url 'LeerLibros' %}">Regresar</a>
+        <br>
+        <a href="{% url 'LeerComentarioLibros' %}">Leer comentarios</a>
+        <br>
+        <a href="{% url 'ComentarioLibros' %}">Agregar nuevo comentario</a>
     </p>
-</body>
-</html>
+
+{% endblock %}
