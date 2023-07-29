@@ -92,8 +92,10 @@ def leerLibros(request):
     contexto = {"libros":libros}
     return render(request, "AppBiblioCine/leerLibros.html", contexto)
 
-def leerComentarioLibros(request):
+def leerComentarioLibros(request, id):
     comentarios = ComentarioLibro.objects.all()
+    comentarios = ComentarioLibro.objects.filter(libro__id=id)
+
     contexto = {"comentarios":comentarios}
     print(comentarios)
     return render(request, "AppBiblioCine/leerComentariosLibros.html", contexto)

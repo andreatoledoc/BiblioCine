@@ -47,18 +47,42 @@
                 </div>
                 
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Inicio' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'AboutMe' %}">About Me</a></li>
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0 align-items-center">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 mb-0" href="{% url 'Inicio' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 mb-0" href="{% url 'AboutMe' %}">About Me</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 mb-0" href="{% url 'Logout' %}">Logout</a></li>
+                
                         {% if not request.user.is_authenticated %}
-                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Login' %}">Login</a></li>
+                            <li style="list-style: none; font-weight: bold;" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Users
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="background-color: #f8f9fa;">
+                                    <li><a class="dropdown-item text-dark" href="{% url 'Login' %}">Login</a></li>
+                                    <li><a class="dropdown-item text-dark" href="{% url 'Register' %}">Registro</a></li>
+                                </ul>
+                            </li>
                         {% endif %}
-                        {% if request.user.is_authenticated %}  
-                            <p class = "text-muted small mb-4 mb-lg-0"> Hola, {{user.username}}</p>
-                        {% endif %}
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Logout' %}">Logout</a></li>
+                    
+                        {% if request.user.is_authenticated %} 
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 mb-0" href="#">Hola, {{user.username}}</a></li>
+                            <li style="list-style: none; font-weight: bold;" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Users
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="background-color: #f8f9fa;">
+                                    <li><a class="dropdown-item text-dark" href="{% url 'EditarPerfil' %}">EditarPerfil</a></li>
+                                    <li><a class="dropdown-item text-dark" href="{% url 'AgregarAvatar' %}">AgregarAvatar</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}                
                     </ul>
                 </div>
+                
+                
+                
+                                 
+
             </div>
         </nav>
         <!-- Page Header-->

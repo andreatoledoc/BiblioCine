@@ -28,7 +28,7 @@ urlpatterns = [
     path ( 'editarLibros/<libro_titulo>', views.editarLibros, name='EditarLibros'),
     path ( 'editarPeliculas/<pelicula_titulo>', views.editarPeliculas, name='EditarPeliculas'),
 
-    path( 'leerComentarioLibros/', views.leerComentarioLibros, name='LeerComentarioLibros'),
+    path( 'leerComentarioLibros/<id>', views.leerComentarioLibros, name='LeerComentarioLibros'),
     path( 'leerComentarioPeliculas/', views.leerComentarioPeliculas, name='LeerComentarioPeliculas'),
 
     path ( 'eliminarComentarioLibros/<comentario_comentario>', views.eliminarComentarioLibros, name='EliminarComentarioLibros'),

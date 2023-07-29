@@ -14,7 +14,7 @@
     <p>
         <a href="{% url 'LeerLibros' %}">Regresar</a>
         <br>
-        <a href="{% url 'LeerComentarioLibros' %}">Leer comentarios</a>
+        <a href="{% url 'LeerComentarioLibros' libro.id %}">Leer comentarios</a>
         <br>
         <a href="{% url 'ComentarioLibros' %}">Agregar nuevo comentario</a>
     </p>
