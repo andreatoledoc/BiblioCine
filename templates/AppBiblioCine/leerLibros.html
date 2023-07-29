@@ -23,7 +23,7 @@
               <h5 class="card-title">{{l.titulo}}</h5>
               <p class="card-text m-0">Autor: {{l.autor}}</p>
               <p class="card-text m-0">Genero: {{l.genero}}</p>
-              <a href="{% url 'Detail' l.pk %}" class="btn btn-primary">Ver recomendacion</a>
+              <a href="{% url 'DetailLibros' l.pk %}" class="btn btn-primary">Ver recomendacion</a>
             </div>
             {% if user.is_superuser %}
             <a class="btn btn-danger" href="{% url 'EliminarLibros' l.titulo %}">Eliminar</a>

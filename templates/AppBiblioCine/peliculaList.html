@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peliculas</title>
+</head>
+<body>
+    
+        <h1>Peliculas</h1>
+        <ul>
+            {% for pelicula in object_list %}
+
+                <li>
+                    <p>NOMBRE: {{pelicula.titulo}} </p>
+                    <p>
+                        <a href="{% url 'DetailPeliculas' pelicula.id %}">Ver</a>
+                        <a href="{% url 'EditPeliculas' pelicula.id %}">Editar</a>
+                        <a href="{% url 'DeletePeliculas' pelicula.id %}">Borrar</a>
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+</body>
+</html>

@@ -174,7 +174,7 @@ def editarComentarioLibros(request, comentario_comentario):
             return render (request, 'AppAdministracion/inicio.html')
         
     else:
-            miFormulario = ComentarioLibro(initial={'comentario': comentario.comentario})
+            miFormulario = ComentarioLibroFormulario(initial={'comentario': comentario.comentario})
                                     
     return render (request, 'AppBiblioCine/editarComentarioLibro.html', {'miFormulario': miFormulario, 'comentario_comentario': comentario_comentario})
 
@@ -279,6 +279,12 @@ def leerPeliculas(request):
     contexto = {"peliculas":peliculas}
     return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
 
+def leerComentarioPeliculas(request):
+    comentarios = ComentarioPelicula.objects.all()
+    contexto = {"comentarios":comentarios}
+    print(comentarios)
+    return render(request, "AppBiblioCine/leerComentariosPeliculas.html", contexto)
+
 #Delete
 
 def eliminarPeliculas (request, pelicula_titulo):
@@ -288,6 +294,14 @@ def eliminarPeliculas (request, pelicula_titulo):
     peliculas = Pelicula.objects.all()
     contexto = {"peliculas":peliculas}
     return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
+
+def eliminarComentarioPeliculas (request, comentario_comentario):
+    comentario = ComentarioPelicula.objects.get(comentario=comentario_comentario)
+    comentario.delete()
+
+    comentarios = ComentarioPelicula.objects.all()
+    contexto = {"comentarios":comentarios}
+    return render(request, "AppBiblioCine/leerComentariosPeliculas.html", contexto)
 
 
 #Edicion
@@ -317,7 +331,7 @@ def editarPeliculas(request, pelicula_titulo):
             return render (request, 'AppAdministracion/inicio.html')
         
     else:
-            miFormulario = LibroFormulario(initial={'titulo': pelicula.titulo,
+            miFormulario = PeliculaFormulario(initial={'titulo': pelicula.titulo,
                                                        'director': pelicula.director,
                                                        'año_lanzamiento': pelicula.año_lanzamiento,
                                                        'sinopsis': pelicula.sinopsis,
@@ -330,3 +344,48 @@ def editarPeliculas(request, pelicula_titulo):
     return render (request, 'AppBiblioCine/editarPelicula.html', {'miFormulario': miFormulario, 'pelicula_titulo': pelicula_titulo})
 
 
+def editarComentarioPeliculas(request, comentario_comentario):
+    comentario = ComentarioPelicula.objects.get(comentario = comentario_comentario)
+
+    if  request.method == "POST":
+        miFormulario = ComentarioPeliculaFormulario (request.POST)
+        print (miFormulario)
+
+        if miFormulario.is_valid():
+
+            informacion = miFormulario.cleaned_data
+
+            comentario.comentario = informacion['comentario']
+            comentario.save()
+
+            return render (request, 'AppAdministracion/inicio.html')
+        
+    else:
+            miFormulario = ComentarioPeliculaFormulario(initial={'comentario': comentario.comentario})
+                                    
+    return render (request, 'AppBiblioCine/editarComentarioPelicula.html', {'miFormulario': miFormulario, 'comentario_comentario': comentario_comentario})
+
+
+#Clases basadas en vistas
+
+class PeliculaList(ListView):
+    model = Pelicula
+    template_name='AppBiblioCine/peliculaList.html'
+
+class PeliculaDetalle (DetailView):
+    model = Pelicula
+    template_name='AppBiblioCine/peliculaDetalle.html'
+
+class PeliculaCreacion (CreateView):
+    model = Pelicula
+    success_url='AppBiblioCine/pelicula/list'
+    fields = ['titulo', 'director']
+
+class PeliculaUpdate (UpdateView):
+    model = Pelicula
+    success_url = reverse_lazy('List')
+    fields = ['titulo', 'director']
+
+class PeliculaDelete (DeleteView):
+    model = Pelicula
+    success_url = reverse_lazy('List')

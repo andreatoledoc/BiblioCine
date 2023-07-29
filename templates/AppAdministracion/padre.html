@@ -31,8 +31,19 @@
                 </button>
 
                 <div class="container">
+                    {% if user.is_superuser %}
+                        <li style="list-style: none; font-weight: bold;" class="navbar-brand dropdown">
+                            <a class ="navbar-brand dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                AñadirRecomendaciones
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'Libros' %}">AñadirLibros</a></li>
+                                <li><a class="dropdown-item" href="{% url 'Peliculas' %}">AñadirPeliculas</a></li>
+                            </ul>
+                        </li>
+                   {% endif %}
                     <a class="navbar-brand" href="{% url 'LeerLibros' %}">Libros</a>
-                    <a class="navbar-brand" href="{% url 'Peliculas' %}">Peliculas</a>
+                    <a class="navbar-brand" href="{% url 'LeerPeliculas' %}">Peliculas</a>
                 </div>
                 
                 <div class="collapse navbar-collapse" id="navbarResponsive">

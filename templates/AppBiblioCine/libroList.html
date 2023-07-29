@@ -14,9 +14,9 @@
                 <li>
                     <p>NOMBRE: {{libro.titulo}} </p>
                     <p>
-                        <a href="{% url 'Detail' libro.id %}">Ver</a>
-                        <a href="{% url 'Edit' libro.id %}">Editar</a>
-                        <a href="{% url 'Delete' libro.id %}">Borrar</a>
+                        <a href="{% url 'DetailLibros' libro.id %}">Ver</a>
+                        <a href="{% url 'EditLibros' libro.id %}">Editar</a>
+                        <a href="{% url 'DeleteLibros' libro.id %}">Borrar</a>
                     </p>
                 </li>
             {% endfor %}

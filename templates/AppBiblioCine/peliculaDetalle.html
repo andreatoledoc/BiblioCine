@@ -1,0 +1,20 @@
+{% extends 'AppAdministracion/padre.html' %}
+{% load static %}
+
+{% block CAMBIOS %}
+
+    <p>Nombre del Pelicula: <i>{{pelicula.titulo}}</i></p>
+    <p>Nombre del directotr: <i>{{pelicula.director}}</i></p>
+    <p>Año de lanzamiento: <i>{{pelicula.año_lanzamiento}}</i></p>
+    <p>Género: <i>{{pelicula.genero}}</i></p>
+    <p>Duración: <i>{{pelicula.duracion}}</i></p>
+    <p>Recomendacion: {{pelicula.recomendacion}}</p>
+    <p>
+        <a href="{% url 'LeerPeliculas' %}">Regresar</a>
+        <br>
+        <a href="{% url 'LeerComentarioPeliculas' %}">Leer comentarios</a>
+        <br>
+        <a href="{% url 'ComentarioPeliculas' %}">Agregar nuevo comentario</a>
+    </p>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'AppAdministracion/padre.html' %}
+
+{% load static %}
+
+{% block CAMBIOS %}
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Comentarios</title>
+    </head>
+    <body>
+        {% for c in comentarios %}
+            <li>{{c}}</li>
+            <button>
+                <a href="{% url 'EliminarComentarioPeliculas' c.comentario %}">Eliminar</a>
+                <a href="{% url 'EditarComentarioPeliculas' c.comentario %}">Editar</a>
+            </button>
+            
+        {% endfor %}
+        <br>
+        <a href="{% url 'ComentarioPeliculas' %}">Agregar nuevo comentario</a>
+    </body>
+    </html>
+
+{% endblock %}

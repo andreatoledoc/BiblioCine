@@ -29,11 +29,23 @@ urlpatterns = [
     path ( 'editarPeliculas/<pelicula_titulo>', views.editarPeliculas, name='EditarPeliculas'),
 
     path( 'leerComentarioLibros/', views.leerComentarioLibros, name='LeerComentarioLibros'),
+    path( 'leerComentarioPeliculas/', views.leerComentarioPeliculas, name='LeerComentarioPeliculas'),
+
     path ( 'eliminarComentarioLibros/<comentario_comentario>', views.eliminarComentarioLibros, name='EliminarComentarioLibros'),
+    path ( 'eliminarComentarioPeliculas/<comentario_comentario>', views.eliminarComentarioPeliculas, name='EliminarComentarioPeliculas'),
+    
     path ( 'editarComentarioLibros/<comentario_comentario>', views.editarComentarioLibros, name='EditarComentarioLibros'),
-    path ('libro/list', views.LibroList.as_view(), name='List'),
-    path (r'^(?P<pk>\d+)$', views.LibroDetalle.as_view(), name='Detail'),
-    path (r'^nuevo$', views.LibroCreacion.as_view(), name='New'),
-    path (r'^editar/(?P<pk>\d+)$', views.LibroUpdate.as_view(), name='Edit'),
-    path (r'^borrar/(?P<pk>\d+)$', views.LibroDelete.as_view(), name='Delete'),
+    path ( 'editarComentarioPeliculas/<comentario_comentario>', views.editarComentarioPeliculas, name='EditarComentarioPeliculas'),
+
+    path ('libro/list', views.LibroList.as_view(), name='ListLibros'),
+    path (r'^(?P<pk>\d+)$', views.LibroDetalle.as_view(), name='DetailLibros'),
+    path (r'^nuevo$', views.LibroCreacion.as_view(), name='NewLibro'),
+    path (r'^editar/(?P<pk>\d+)$', views.LibroUpdate.as_view(), name='EditLibros'),
+    path (r'^borrar/(?P<pk>\d+)$', views.LibroDelete.as_view(), name='DeleteLibros'),
+
+    path ('pelicula/list', views.PeliculaList.as_view(), name='ListPeliculas'),
+    path (r'^(?P<pk>\d+)$', views.PeliculaDetalle.as_view(), name='DetailPeliculas'),
+    path (r'^nuevo$', views.PeliculaCreacion.as_view(), name='NewPelicula'),
+    path (r'^editar/(?P<pk>\d+)$', views.PeliculaUpdate.as_view(), name='EditPeliculas'),
+    path (r'^borrar/(?P<pk>\d+)$', views.PeliculaDelete.as_view(), name='DeletePeliculas'),
 ]
