@@ -35,7 +35,7 @@ class PeliculaFormulario (forms.Form):
     recomendacion = forms.CharField()
 
 class ComentarioPeliculaFormulario (forms.Form):
-    pelicula = forms.ModelChoiceField(queryset=Pelicula.objects.all())
+    #pelicula = forms.ModelChoiceField(queryset=Pelicula.objects.all())
     #nombre = forms.ModelChoiceField(queryset=User.objects.all())
     comentario = forms.CharField()
 

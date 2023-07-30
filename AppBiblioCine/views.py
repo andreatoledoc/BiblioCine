@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 
 ###LIBROS
@@ -43,7 +44,7 @@ def libros(request):
 @login_required
 def comentarioLibros(request, id):
 
-    comentario = ComentarioLibroFormulario.objects.filter(libro__id=id)
+    libro = get_object_or_404(Libro, id=id)
 
     if request.method == "POST":
         miFormulario = ComentarioLibroFormulario (request.POST)
@@ -51,7 +52,7 @@ def comentarioLibros(request, id):
 
         if miFormulario.is_valid():
             informacion=miFormulario.cleaned_data
-            comentariolibro = ComentarioLibro (libro = request.libro, 
+            comentariolibro = ComentarioLibro (libro = libro, 
                                  nombre=request.user, 
                                  comentario=informacion['comentario'], 
                                  )
@@ -96,10 +97,11 @@ def leerLibros(request):
     return render(request, "AppBiblioCine/leerLibros.html", contexto)
 
 def leerComentarioLibros(request, id):
+    libro = get_object_or_404(Libro, id=id)
     comentarios = ComentarioLibro.objects.all()
     comentarios = ComentarioLibro.objects.filter(libro__id=id)
 
-    contexto = {"comentarios":comentarios}
+    contexto = {"libro": libro, "comentarios":comentarios}
     print(comentarios)
     return render(request, "AppBiblioCine/leerComentariosLibros.html", contexto)
 
@@ -114,7 +116,12 @@ def eliminarLibros (request, libro_titulo):
     return render(request, "AppBiblioCine/leerLibros.html", contexto)
 
 def eliminarComentarioLibros (request, comentario_comentario):
-    comentario = ComentarioLibro.objects.get(comentario=comentario_comentario)
+    comentario = get_object_or_404(ComentarioLibro, comentario=comentario_comentario)
+
+    #Verificar si el usuario es el creador del comentario o es el superusuario
+    if not request.user.is_superuser and request.user != comentario.nombre:
+        return HttpResponse("No tienes permiso para eliminar este comentario.")
+
     comentario.delete()
 
     comentarios = ComentarioLibro.objects.all()
@@ -163,7 +170,11 @@ def editarLibros(request, libro_titulo):
     return render (request, 'AppBiblioCine/editarLibro.html', {'miFormulario': miFormulario, 'libro_titulo': libro_titulo})
 
 def editarComentarioLibros(request, comentario_comentario):
-    comentario = ComentarioLibro.objects.get(comentario = comentario_comentario)
+    comentario = get_object_or_404(ComentarioLibro, comentario=comentario_comentario)
+
+    #Verificar si el usuario es el creador del comentario
+    if request.user != comentario.nombre:
+        return HttpResponse("No tienes permiso para editar este comentario.")
 
     if  request.method == "POST":
         miFormulario = ComentarioLibroFormulario (request.POST)
@@ -233,14 +244,17 @@ def peliculas(request):
     return render (request, "AppBiblioCine/peliculas.html", {"miFormulario": miFormulario})
 
 @login_required
-def comentarioPeliculas(request):
+def comentarioPeliculas(request, id):
+
+    pelicula = get_object_or_404(Pelicula, id = id)
+
     if request.method == "POST":
         miFormulario = ComentarioPeliculaFormulario (request.POST)
         print(miFormulario)
 
         if miFormulario.is_valid():
             informacion=miFormulario.cleaned_data
-            comentariopelicula = ComentarioPelicula (pelicula = informacion['pelicula'], 
+            comentariopelicula = ComentarioPelicula (pelicula = pelicula, 
                                  nombre=request.user, 
                                  comentario=informacion['comentario'], 
                                  )
@@ -284,11 +298,12 @@ def leerPeliculas(request):
     contexto = {"peliculas":peliculas}
     return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
 
-def leerComentarioPeliculas(request):
+def leerComentarioPeliculas(request, id):
+    pelicula = get_object_or_404(Pelicula, id = id)
     comentarios = ComentarioPelicula.objects.all()
     comentarios = ComentarioPelicula.objects.filter(pelicula__id = id)
 
-    contexto = {"comentarios":comentarios}
+    contexto = {"pelicula" : pelicula, "comentarios":comentarios}
     print(comentarios)
     return render(request, "AppBiblioCine/leerComentariosPeliculas.html", contexto)
 
@@ -303,7 +318,12 @@ def eliminarPeliculas (request, pelicula_titulo):
     return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
 
 def eliminarComentarioPeliculas (request, comentario_comentario):
-    comentario = ComentarioPelicula.objects.get(comentario=comentario_comentario)
+    comentario = get_object_or_404(ComentarioPelicula, comentario=comentario_comentario)
+
+    # Verificar si el usuario actual es el creador del comentario o es el super usuario
+    if not request.user.is_superuser and request.user != comentario.nombre:
+        return HttpResponse("No tienes permiso para eliminar este comentario.")
+
     comentario.delete()
 
     comentarios = ComentarioPelicula.objects.all()
@@ -352,7 +372,11 @@ def editarPeliculas(request, pelicula_titulo):
 
 
 def editarComentarioPeliculas(request, comentario_comentario):
-    comentario = ComentarioPelicula.objects.get(comentario = comentario_comentario)
+    comentario = get_object_or_404(ComentarioPelicula, comentario=comentario_comentario)
+
+    # Verificar si el usuario actual es el creador del comentario
+    if request.user != comentario.nombre:
+        return HttpResponse("No tienes permiso para eliminar este comentario.")
 
     if  request.method == "POST":
         miFormulario = ComentarioPeliculaFormulario (request.POST)

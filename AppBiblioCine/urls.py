@@ -10,7 +10,7 @@ urlpatterns = [
     #path('libroFormulario/', views.libroFormulario, name='LibroFormulario'),
 
     path('peliculas/', views.peliculas, name='Peliculas'),
-    path('comentarioPeliculas/', views.comentarioPeliculas, name='ComentarioPeliculas'),
+    path('comentarioPeliculas/<id>', views.comentarioPeliculas, name='ComentarioPeliculas'),
     #path('peliculaFormulario/', views.peliculaFormulario, name='PeliculaFormulario'),
     
     path('busquedaLibro/', views.busquedaLibro, name='BusquedaLibro'),

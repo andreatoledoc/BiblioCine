@@ -15,14 +15,21 @@
     <body>
         {% for c in comentarios %}
             <li>{{c}}</li>
+
+            {% if user.is_authenticated and user == c.nombre %}
+
             <button>
-                <a href="{% url 'EliminarComentarioPeliculas' c.comentario %}">Eliminar</a>
-                <a href="{% url 'EditarComentarioPeliculas' c.comentario %}">Editar</a>
+                {% if user.is_superuser %}
+                    <a href="{% url 'EliminarComentarioPeliculas' c.comentario %}">Eliminar</a>
+                {% endif %}
+                    <a href="{% url 'EditarComentarioPeliculas' c.comentario %}">Editar</a>
             </button>
+
+            {% endif %}
             
         {% endfor %}
         <br>
-        <a href="{% url 'ComentarioPeliculas' %}">Agregar nuevo comentario</a>
+        <a href="{% url 'ComentarioPeliculas' pelicula.id %}">Agregar nuevo comentario</a>
     </body>
     </html>
 
