@@ -107,6 +107,7 @@ def agregarAvatar(request):
 
 #AboutMe
 
-def aboutMe(self):
-     template = loader.get_template('AppAdministracion/aboutMe.html')
-     return HttpResponse(template)
+def aboutMe(request):
+     #template = loader.get_template('AppAdministracion/aboutMe.html')
+     #return HttpResponse(template)
+     return render(request, 'AppAdministracion/aboutMe.html')

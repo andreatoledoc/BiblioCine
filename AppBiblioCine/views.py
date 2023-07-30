@@ -41,14 +41,17 @@ def libros(request):
     return render (request, "AppBiblioCine/libros.html", {"miFormulario": miFormulario})
 
 @login_required
-def comentarioLibros(request):
+def comentarioLibros(request, id):
+
+    comentario = ComentarioLibroFormulario.objects.filter(libro__id=id)
+
     if request.method == "POST":
         miFormulario = ComentarioLibroFormulario (request.POST)
         print(miFormulario)
 
         if miFormulario.is_valid():
             informacion=miFormulario.cleaned_data
-            comentariolibro = ComentarioLibro (libro = informacion['libro'], 
+            comentariolibro = ComentarioLibro (libro = request.libro, 
                                  nombre=request.user, 
                                  comentario=informacion['comentario'], 
                                  )
@@ -283,6 +286,8 @@ def leerPeliculas(request):
 
 def leerComentarioPeliculas(request):
     comentarios = ComentarioPelicula.objects.all()
+    comentarios = ComentarioPelicula.objects.filter(pelicula__id = id)
+
     contexto = {"comentarios":comentarios}
     print(comentarios)
     return render(request, "AppBiblioCine/leerComentariosPeliculas.html", contexto)

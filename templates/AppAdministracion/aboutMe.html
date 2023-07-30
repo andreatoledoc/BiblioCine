@@ -4,16 +4,70 @@
 
 {% block CAMBIOS %}
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        Hola ! Soy Andi
-    </body>
-    </html>
+<div class="container-fluid d-flex align-items-center flex-column mt-5 mb-5">  
+
+    <section class="section about-section gray-bg " id="about">
+            
+        <div class="row align-items-start flex-row-reverse container-fluid ">
+                
+            <div class="col-lg-8">
+                <div class="about-text go-to">
+                    <h3 class="dark-color">About Me</h3>
+                    <h6 class="theme-color lead">Economísta &amp; Analista de datos</h6>
+                    <p>Soy <mark>Andrea Toledo Cadario</mark>, Licenciada en Economía, con un gran interés en el análisis de datos. <br> 
+                    
+                        Actualmente estoy trabajando como analista, en el desarrollo y consultoría de modelos de planificación y análisis utilizando Python. <br>
+                        Trabajo con empresas de energía eléctrica de Brasil, a quienes les brindamos soluciones que integran todas las variables del negocio. <br>
+                        Lo que más me apasiona del trabajo es poder aplicar la tecnología y el estudio de los datos a la resolución de problemas del mundo real con un impacto significativo en el día a día de nuestros clientes.  <br> 
+                        
+                        Mi interés por el análisis de datos me impulsa a introducirme cada vez más en este mundo del que tanto hay para aprender, con el objetivo de poder participar en la solución de desafíos complejos que se puedan presentar.<br>
+                        
+                        Estoy emocionada por el crecimiento personal y profesional que esta busca de conocimiento me brindará, y ansiona por aplicar lo aprendido en proyectos significativos y enriquesedores con impacto real. <br>
+                    
+                    <div class="row about-list">
+                        <div class="col-md-2">
+                            <div class="media">
+                                <label>Edad</label>
+                                <p>25 años</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="media">
+                                <label>Nacionalidad</label>
+                                <p>Argentina</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="media">
+                                <label>Email</label>
+                                <p>andreatoledocadario@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="media">
+                                <label>LinkedIn</label>
+                                <p>www.linkedin.com/in/andrea-toledocadario/</p>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 d-flex align-items-start justify-content-end">
+                <div class="about-avatar">
+                    <img src="{% static 'assets/img/aboutme.png' %}" title="" alt="" class = 'img-about-bg'>
+                </div>
+            </div>
+            
+        </div>
+
+    </section>
+
+
+</div>
 
 {% endblock %}

@@ -12,7 +12,7 @@
     <p>
         <a href="{% url 'LeerPeliculas' %}">Regresar</a>
         <br>
-        <a href="{% url 'LeerComentarioPeliculas' %}">Leer comentarios</a>
+        <a href="{% url 'LeerComentarioPeliculas' pelicula.id %}">Leer comentarios</a>
         <br>
         <a href="{% url 'ComentarioPeliculas' %}">Agregar nuevo comentario</a>
     </p>

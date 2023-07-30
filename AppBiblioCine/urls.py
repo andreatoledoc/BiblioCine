@@ -6,7 +6,7 @@ from AppBiblioCine import views
 
 urlpatterns = [
     path('libros/', views.libros, name='Libros'),
-    path('comentarioLibros/', views.comentarioLibros, name='ComentarioLibros'),
+    path('comentarioLibros/<id>', views.comentarioLibros, name='ComentarioLibros'),
     #path('libroFormulario/', views.libroFormulario, name='LibroFormulario'),
 
     path('peliculas/', views.peliculas, name='Peliculas'),
@@ -29,7 +29,7 @@ urlpatterns = [
     path ( 'editarPeliculas/<pelicula_titulo>', views.editarPeliculas, name='EditarPeliculas'),
 
     path( 'leerComentarioLibros/<id>', views.leerComentarioLibros, name='LeerComentarioLibros'),
-    path( 'leerComentarioPeliculas/', views.leerComentarioPeliculas, name='LeerComentarioPeliculas'),
+    path( 'leerComentarioPeliculas/<id>', views.leerComentarioPeliculas, name='LeerComentarioPeliculas'),
 
     path ( 'eliminarComentarioLibros/<comentario_comentario>', views.eliminarComentarioLibros, name='EliminarComentarioLibros'),
     path ( 'eliminarComentarioPeliculas/<comentario_comentario>', views.eliminarComentarioPeliculas, name='EliminarComentarioPeliculas'),

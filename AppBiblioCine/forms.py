@@ -17,7 +17,7 @@ class LibroFormulario(forms.Form):
     recomendacion = forms.CharField()
 
 class ComentarioLibroFormulario (forms.Form):
-    libro = forms.ModelChoiceField(queryset=Libro.objects.all())
+    #libro = forms.ModelChoiceField(queryset=Libro.objects.all())
     #nombre = forms.ModelChoiceField(queryset=User.objects.all())
     comentario = forms.CharField()
     

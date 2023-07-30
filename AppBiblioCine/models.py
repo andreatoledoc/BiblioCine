@@ -16,7 +16,7 @@ class Libro(models.Model):
     recomendacion = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f"Titulo: {self.titulo} - Autor: {self.autor} - Género: {self.genero} - Portada {self.portada} "
+        return f"Titulo: {self.titulo} - Autor: {self.autor} - Género: {self.genero}"
 
 class ComentarioLibro(models.Model):
     libro = models.ForeignKey(Libro, related_name='comentariosLibros', on_delete=models.CASCADE, null=True)
