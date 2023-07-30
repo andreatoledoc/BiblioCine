@@ -36,7 +36,7 @@ class UserEditForm(UserCreationForm):
 
 class AvatarFormulario(forms.Form):
     #especificar los campos
-    username=forms.ModelChoiceField(queryset=User.objects.all())
+    #username=forms.ModelChoiceField(queryset=User.objects.all())
     imagen = forms.ImageField(required=True)
 
     class Meta:

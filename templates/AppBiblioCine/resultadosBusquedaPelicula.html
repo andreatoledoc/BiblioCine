@@ -21,7 +21,7 @@
     {% if peliculas %}
         <ul>
             {% for pelicula in peliculas %}
-                <li> {{pelicula.titulo}}</li>
+                <li><a href="{% url 'VerPelicula' pelicula.id %}">{{ pelicula.titulo }}</a></li>
                 <li> {{pelicula.director}}</li>
                 <li> {{pelicula.genero}}</li>
             {% endfor %}

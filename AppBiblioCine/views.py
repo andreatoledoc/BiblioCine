@@ -194,6 +194,11 @@ def editarComentarioLibros(request, comentario_comentario):
                                     
     return render (request, 'AppBiblioCine/editarComentarioLibro.html', {'miFormulario': miFormulario, 'comentario_comentario': comentario_comentario})
 
+#Ver
+
+def verLibro(request, id):
+    libro = get_object_or_404(Libro, id=id)
+    return render(request, "AppBiblioCine/libroDetalle.html", {'libro': libro})
 
 #Clases basadas en vistas
 
@@ -396,6 +401,11 @@ def editarComentarioPeliculas(request, comentario_comentario):
                                     
     return render (request, 'AppBiblioCine/editarComentarioPelicula.html', {'miFormulario': miFormulario, 'comentario_comentario': comentario_comentario})
 
+#Ver
+
+def verPelicula(request, id):
+    pelicula = get_object_or_404(Pelicula, id=id)
+    return render(request, "AppBiblioCine/peliculaDetalle.html", {'pelicula': pelicula})
 
 #Clases basadas en vistas
 

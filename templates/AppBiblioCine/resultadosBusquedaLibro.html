@@ -21,7 +21,7 @@
     {% if libros %}
         <ul>
             {% for libro in libros %}
-                <li> {{libro.titulo}}</li>
+                <li><a href="{% url 'VerLibro' libro.id %}">{{ libro.titulo }}</a></li>
                 <li> {{libro.autor}}</li>
                 <li> {{libro.genero}}</li>
             {% endfor %}

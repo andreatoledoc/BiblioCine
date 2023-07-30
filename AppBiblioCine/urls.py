@@ -19,6 +19,9 @@ urlpatterns = [
     path('busquedaPelicula/', views.busquedaPelicula, name='BusquedaPelicula'),
     path('buscarPelicula/', views.buscarPelicula, name="BuscarPelicula"),
 
+    path('ver-libro/<int:id>/', views.verLibro, name='VerLibro'),
+    path('ver-pelicula/<int:id>/', views.verPelicula, name='VerPelicula'),
+
     path( 'leerLibros/', views.leerLibros, name='LeerLibros'),
     path( 'leerPeliculas/', views.leerPeliculas, name='LeerPeliculas'),
 

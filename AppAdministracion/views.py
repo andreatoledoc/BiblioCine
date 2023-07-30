@@ -20,7 +20,7 @@ from django.template import loader
 def inicio(request):
     avatares = Avatar.objects.filter(user=request.user.id)
     print (avatares)
-    return render(request, 'AppAdministracion/inicio.html', {'url':avatares[0].imagen.url})
+    return render(request, 'AppAdministracion/inicio.html', {'url':avatares[0].imagen.url, 'messages': messages.get_messages(request)})
 
 
 #Login
@@ -36,6 +36,13 @@ def login_request(request):
 
             if user is not None:
                 login(request, user)
+
+                # Obtener el avatar del usuario si existe
+                avatar_url = None
+                avatares = Avatar.objects.filter(user=user)
+                if avatares.exists():
+                    avatar_url = avatares[0].imagen.url
+                    
                 return render (request, 'AppAdministracion/inicio.html', {'mensaje': f"Bienvenido {usuario}", 'user': user, 'login_success': True})
 
             else:
@@ -108,6 +115,4 @@ def agregarAvatar(request):
 #AboutMe
 
 def aboutMe(request):
-     #template = loader.get_template('AppAdministracion/aboutMe.html')
-     #return HttpResponse(template)
      return render(request, 'AppAdministracion/aboutMe.html')
