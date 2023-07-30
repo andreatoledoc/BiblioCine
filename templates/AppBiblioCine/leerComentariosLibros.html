@@ -19,9 +19,7 @@
             {% if user.is_authenticated and user == c.nombre %}
 
             <button>
-                {% if user.is_superuser %}
-                    <a href="{% url 'EliminarComentarioLibros' comentario_comentario=c.comentario|urlencode %}">Eliminar</a>
-                {% endif %}
+                <a href="{% url 'EliminarComentarioLibros' comentario_comentario=c.comentario|urlencode %}">Eliminar</a>
                 <a href="{% url 'EditarComentarioLibros' comentario_comentario=c.comentario|urlencode %}">Editar</a>
             </button>
             {% endif %}
