@@ -38,13 +38,13 @@ urlpatterns = [
     path ( 'editarComentarioPeliculas/<comentario_comentario>', views.editarComentarioPeliculas, name='EditarComentarioPeliculas'),
 
     path ('libro/list', views.LibroList.as_view(), name='ListLibros'),
-    path (r'^(?P<pk>\d+)$', views.LibroDetalle.as_view(), name='DetailLibros'),
+    path ('libro/detail/<pk>', views.LibroDetalle.as_view(), name='DetailLibros'),
     path (r'^nuevo$', views.LibroCreacion.as_view(), name='NewLibro'),
     path (r'^editar/(?P<pk>\d+)$', views.LibroUpdate.as_view(), name='EditLibros'),
     path (r'^borrar/(?P<pk>\d+)$', views.LibroDelete.as_view(), name='DeleteLibros'),
 
     path ('pelicula/list', views.PeliculaList.as_view(), name='ListPeliculas'),
-    path (r'^(?P<pk>\d+)$', views.PeliculaDetalle.as_view(), name='DetailPeliculas'),
+    path ('pelicula/detail/<pk>', views.PeliculaDetalle.as_view(), name='DetailPeliculas'),
     path (r'^nuevo$', views.PeliculaCreacion.as_view(), name='NewPelicula'),
     path (r'^editar/(?P<pk>\d+)$', views.PeliculaUpdate.as_view(), name='EditPeliculas'),
     path (r'^borrar/(?P<pk>\d+)$', views.PeliculaDelete.as_view(), name='DeletePeliculas'),
