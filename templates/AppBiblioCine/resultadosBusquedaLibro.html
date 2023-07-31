@@ -25,10 +25,13 @@
                 <li> {{libro.autor}}</li>
                 <li> {{libro.genero}}</li>
             {% endfor %}
+            <strong><a href="{% url 'BusquedaLibro' %}">Otra búsqueda</a></strong>
         </ul>
     
     {% else %}
         <p>No hay datos con esa descripcion</p>
+
+        <strong><a href="{% url 'BusquedaLibro' %}">Otra búsqueda</a></strong>
     {% endif %}
     <p style="color: red;">{{respuesta}}</p>
 
