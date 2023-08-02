@@ -6,6 +6,7 @@ from AppAdministracion import views
 
 urlpatterns = [
     path('', views.inicio, name='Inicio'),
+    path('AppBiblioCine', views.inicio, name='Inicio'),
     path( 'login', views.login_request, name='Login'),
     path ('register', views.register, name = "Register"),
     path ('logout', LogoutView.as_view (template_name='AppAdministracion/logout.html'), name='Logout'),

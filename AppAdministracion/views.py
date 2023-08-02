@@ -14,13 +14,15 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.template import Template, Context
 from django.template import loader
+from django.urls import reverse
+
 
 #Inicio
 @login_required
 def inicio(request):
     avatares = Avatar.objects.filter(user=request.user.id)
     print (avatares)
-    return render(request, 'AppAdministracion/inicio.html', {'url':avatares[0].imagen.url, 'messages': messages.get_messages(request)})
+    return render(request, 'AppAdministracion/inicio.html', {'url':avatares[0].imagen.url, 'mensaje': f"Bienvenido {request.user.username}", 'user': request.user, 'login_success': True})
 
 
 #Login
@@ -36,21 +38,15 @@ def login_request(request):
 
             if user is not None:
                 login(request, user)
-
-                # Obtener el avatar del usuario si existe
-                avatar_url = None
-                avatares = Avatar.objects.filter(user=user)
-                if avatares.exists():
-                    avatar_url = avatares[0].imagen.url
-                    
-                return render (request, 'AppAdministracion/inicio.html', {'mensaje': f"Bienvenido {usuario}", 'user': user, 'login_success': True})
-
+                return redirect (reverse('Inicio'))
+                
             else:
-                return render(request, 'AppAdministracion/inicio.html', {"mensaje": "Error, datos erroneos", 'login_success': False})
+                return render(request, 'AppAdministracion/login.html', {"mensaje": "Error, datos erroneos", 'login_success': False})
         else:
-            return render(request, 'AppAdministracion/inicio.html', {'mensaje': 'Error, formulario erroneo', 'form': form, 'login_success': False})
+            return render(request, 'AppAdministracion/login.html', {'mensaje': 'Error, formulario erroneo', 'form': form, 'login_success': False})
     
-    form = AuthenticationForm()
+    else:
+        form = AuthenticationForm()
 
     return render (request, 'AppAdministracion/login.html', {'form': form})
 

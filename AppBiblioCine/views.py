@@ -115,18 +115,12 @@ def eliminarLibros (request, libro_titulo):
     contexto = {"libros":libros}
     return render(request, "AppBiblioCine/leerLibros.html", contexto)
 
-def eliminarComentarioLibros (request, comentario_comentario):
-    comentario = get_object_or_404(ComentarioLibro, comentario=comentario_comentario)
+def eliminarComentarioLibros (request, id):
 
-    #Verificar si el usuario es el creador del comentario o es el superusuario
-    if not request.user.is_superuser and request.user != comentario.nombre:
-        return HttpResponse("No tienes permiso para eliminar este comentario.")
-
+    comentario = ComentarioLibro.objects.get(id=id)
     comentario.delete()
-
-    comentarios = ComentarioLibro.objects.all()
-    contexto = {"comentarios":comentarios}
-    return render(request, "AppBiblioCine/leerComentariosLibros.html", contexto)
+    url_anterior = request.META.get('HTTP_REFERER', '/')
+    return redirect (url_anterior)
 
 #Edicion
 
@@ -169,12 +163,8 @@ def editarLibros(request, libro_titulo):
             
     return render (request, 'AppBiblioCine/editarLibro.html', {'miFormulario': miFormulario, 'libro_titulo': libro_titulo})
 
-def editarComentarioLibros(request, comentario_comentario):
-    comentario = get_object_or_404(ComentarioLibro, comentario=comentario_comentario)
-
-    #Verificar si el usuario es el creador del comentario
-    if request.user != comentario.nombre:
-        return HttpResponse("No tienes permiso para editar este comentario.")
+def editarComentarioLibros(request, id):
+    comentario = ComentarioLibro.objects.get(id=id)
 
     if  request.method == "POST":
         miFormulario = ComentarioLibroFormulario (request.POST)
@@ -192,7 +182,7 @@ def editarComentarioLibros(request, comentario_comentario):
     else:
             miFormulario = ComentarioLibroFormulario(initial={'comentario': comentario.comentario})
                                     
-    return render (request, 'AppBiblioCine/editarComentarioLibro.html', {'miFormulario': miFormulario, 'comentario_comentario': comentario_comentario})
+    return render (request, 'AppBiblioCine/editarComentarioLibro.html', {'miFormulario': miFormulario, 'id': id})
 
 #Ver
 
@@ -322,18 +312,12 @@ def eliminarPeliculas (request, pelicula_titulo):
     contexto = {"peliculas":peliculas}
     return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
 
-def eliminarComentarioPeliculas (request, comentario_comentario):
-    comentario = get_object_or_404(ComentarioPelicula, comentario=comentario_comentario)
+def eliminarComentarioPeliculas (request, id):
 
-    # Verificar si el usuario actual es el creador del comentario o es el super usuario
-    if not request.user.is_superuser and request.user != comentario.nombre:
-        return HttpResponse("No tienes permiso para eliminar este comentario.")
-
+    comentario = ComentarioPelicula.objects.get(id=id)
     comentario.delete()
-
-    comentarios = ComentarioPelicula.objects.all()
-    contexto = {"comentarios":comentarios}
-    return render(request, "AppBiblioCine/leerComentariosPeliculas.html", contexto)
+    url_anterior = request.META.get('HTTP_REFERER', '/')
+    return redirect (url_anterior)
 
 
 #Edicion
@@ -376,12 +360,8 @@ def editarPeliculas(request, pelicula_titulo):
     return render (request, 'AppBiblioCine/editarPelicula.html', {'miFormulario': miFormulario, 'pelicula_titulo': pelicula_titulo})
 
 
-def editarComentarioPeliculas(request, comentario_comentario):
-    comentario = get_object_or_404(ComentarioPelicula, comentario=comentario_comentario)
-
-    # Verificar si el usuario actual es el creador del comentario
-    if request.user != comentario.nombre:
-        return HttpResponse("No tienes permiso para eliminar este comentario.")
+def editarComentarioPeliculas(request, id):
+    comentario = ComentarioPelicula.objects.get(id=id)
 
     if  request.method == "POST":
         miFormulario = ComentarioPeliculaFormulario (request.POST)
@@ -399,7 +379,7 @@ def editarComentarioPeliculas(request, comentario_comentario):
     else:
             miFormulario = ComentarioPeliculaFormulario(initial={'comentario': comentario.comentario})
                                     
-    return render (request, 'AppBiblioCine/editarComentarioPelicula.html', {'miFormulario': miFormulario, 'comentario_comentario': comentario_comentario})
+    return render (request, 'AppBiblioCine/editarComentarioPelicula.html', {'miFormulario': miFormulario, 'id': id})
 
 #Ver
 

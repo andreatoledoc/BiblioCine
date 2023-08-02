@@ -20,6 +20,10 @@
             {{miFormulario.as_table}}
         </table>
         <input type="submit", value="Enviar">
+
+        <a href="{% url 'LeerComentariosLibros' libro.id %}">Volver</a>
     </form>
+
+    
 
 {% endblock %}

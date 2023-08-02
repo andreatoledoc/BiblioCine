@@ -19,11 +19,10 @@
             {% if user.is_authenticated and user == c.nombre %}
 
             <button>
-                <a href="{% url 'EliminarComentarioLibros' comentario_comentario=c.comentario|urlencode %}">Eliminar</a>
-                <a href="{% url 'EditarComentarioLibros' comentario_comentario=c.comentario|urlencode %}">Editar</a>
+                <a href="{% url 'EliminarComentarioLibros' c.id %}">Eliminar</a>
+                <a href="{% url 'EditarComentarioLibros' c.id %}">Editar</a>
             </button>
             {% endif %}
-
         {% endfor %}
         <br>
         <a href="{% url 'ComentarioLibros' libro.id %}">Agregar nuevo comentario</a>

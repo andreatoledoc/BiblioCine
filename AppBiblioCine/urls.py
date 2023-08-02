@@ -34,11 +34,11 @@ urlpatterns = [
     path( 'leerComentarioLibros/<id>', views.leerComentarioLibros, name='LeerComentarioLibros'),
     path( 'leerComentarioPeliculas/<id>', views.leerComentarioPeliculas, name='LeerComentarioPeliculas'),
 
-    path ( 'eliminarComentarioLibros/<comentario_comentario>', views.eliminarComentarioLibros, name='EliminarComentarioLibros'),
-    path ( 'eliminarComentarioPeliculas/<comentario_comentario>', views.eliminarComentarioPeliculas, name='EliminarComentarioPeliculas'),
+    path ( 'eliminarComentarioLibros/<id>', views.eliminarComentarioLibros, name='EliminarComentarioLibros'),
+    path ( 'eliminarComentarioPeliculas/<id>', views.eliminarComentarioPeliculas, name='EliminarComentarioPeliculas'),
     
-    path ( 'editarComentarioLibros/<comentario_comentario>', views.editarComentarioLibros, name='EditarComentarioLibros'),
-    path ( 'editarComentarioPeliculas/<comentario_comentario>', views.editarComentarioPeliculas, name='EditarComentarioPeliculas'),
+    path ( 'editarComentarioLibros/<id>', views.editarComentarioLibros, name='EditarComentarioLibros'),
+    path ( 'editarComentarioPeliculas/<id>', views.editarComentarioPeliculas, name='EditarComentarioPeliculas'),
 
     path ('libro/list', views.LibroList.as_view(), name='ListLibros'),
     path ('libro/detail/<pk>', views.LibroDetalle.as_view(), name='DetailLibros'),
