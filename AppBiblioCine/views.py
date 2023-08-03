@@ -67,10 +67,10 @@ def comentarioLibros(request, id):
 #CRUD
 
 #Busqueda
-
+@login_required
 def busquedaLibro(request):
      return render(request, 'AppBiblioCine/busquedaLibro.html')
-
+@login_required
 def buscarLibro(request):
     campo = request.GET.get("campo")
     termino = request.GET.get("termino")
@@ -90,12 +90,12 @@ def buscarLibro(request):
     return render(request, 'AppBiblioCine/resultadosBusquedaLibro.html', {'libros': libros, 'termino': termino, 'campo': campo})
 
 #Lectura
-
+@login_required
 def leerLibros(request):
     libros = Libro.objects.all()
     contexto = {"libros":libros}
     return render(request, "AppBiblioCine/leerLibros.html", contexto)
-
+@login_required
 def leerComentarioLibros(request, id):
     libro = get_object_or_404(Libro, id=id)
     comentarios = ComentarioLibro.objects.all()
@@ -106,7 +106,7 @@ def leerComentarioLibros(request, id):
     return render(request, "AppBiblioCine/leerComentariosLibros.html", contexto)
 
 #Delete
-
+@login_required
 def eliminarLibros (request, libro_titulo):
     libro = Libro.objects.get(titulo=libro_titulo)
     libro.delete()
@@ -114,7 +114,7 @@ def eliminarLibros (request, libro_titulo):
     libros = Libro.objects.all()
     contexto = {"libros":libros}
     return render(request, "AppBiblioCine/leerLibros.html", contexto)
-
+@login_required
 def eliminarComentarioLibros (request, id):
 
     comentario = ComentarioLibro.objects.get(id=id)
@@ -123,7 +123,7 @@ def eliminarComentarioLibros (request, id):
     return redirect (url_anterior)
 
 #Edicion
-
+@login_required
 def editarLibros(request, libro_titulo):
     libro = Libro.objects.get(titulo = libro_titulo)
 
@@ -162,7 +162,7 @@ def editarLibros(request, libro_titulo):
                         
             
     return render (request, 'AppBiblioCine/editarLibro.html', {'miFormulario': miFormulario, 'libro_titulo': libro_titulo})
-
+@login_required
 def editarComentarioLibros(request, id):
     comentario = ComentarioLibro.objects.get(id=id)
 
@@ -264,10 +264,11 @@ def comentarioPeliculas(request, id):
 #CRUD
 
 #Busqueda
-
+@login_required
 def busquedaPelicula(request):
      return render(request, 'AppBiblioCine/busquedaPelicula.html')
 
+@login_required
 def buscarPelicula(request):
     campo = request.GET.get("campo")
     termino = request.GET.get("termino")
@@ -287,12 +288,12 @@ def buscarPelicula(request):
     return render(request, 'AppBiblioCine/resultadosBusquedaPelicula.html', {'peliculas': peliculas, 'termino': termino, 'campo': campo})
 
 #Lectura
-
+@login_required
 def leerPeliculas(request):
     peliculas = Pelicula.objects.all()
     contexto = {"peliculas":peliculas}
     return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
-
+@login_required
 def leerComentarioPeliculas(request, id):
     pelicula = get_object_or_404(Pelicula, id = id)
     comentarios = ComentarioPelicula.objects.all()
@@ -303,7 +304,7 @@ def leerComentarioPeliculas(request, id):
     return render(request, "AppBiblioCine/leerComentariosPeliculas.html", contexto)
 
 #Delete
-
+@login_required
 def eliminarPeliculas (request, pelicula_titulo):
     pelicula = Pelicula.objects.get(titulo=pelicula_titulo)
     pelicula.delete()
@@ -312,6 +313,7 @@ def eliminarPeliculas (request, pelicula_titulo):
     contexto = {"peliculas":peliculas}
     return render(request, "AppBiblioCine/leerPeliculas.html", contexto)
 
+@login_required
 def eliminarComentarioPeliculas (request, id):
 
     comentario = ComentarioPelicula.objects.get(id=id)
@@ -321,7 +323,7 @@ def eliminarComentarioPeliculas (request, id):
 
 
 #Edicion
-
+@login_required
 def editarPeliculas(request, pelicula_titulo):
     pelicula = Pelicula.objects.get(titulo = pelicula_titulo)
 
@@ -359,7 +361,7 @@ def editarPeliculas(request, pelicula_titulo):
             
     return render (request, 'AppBiblioCine/editarPelicula.html', {'miFormulario': miFormulario, 'pelicula_titulo': pelicula_titulo})
 
-
+@login_required
 def editarComentarioPeliculas(request, id):
     comentario = ComentarioPelicula.objects.get(id=id)
 
