@@ -20,9 +20,9 @@ from django.urls import reverse
 #Inicio
 @login_required
 def inicio(request = False):
-    avatares = Avatar.objects.filter(user=request.user.id)
-    print (avatares)
-    return render(request, 'AppAdministracion/inicio.html', {'url':avatares[0].imagen.url, 'mensaje': f"Bienvenido {request.user.username}", 'user': request.user, 'login_success': True})
+    avatar = Avatar.objects.filter(user=request.user.id).first()
+    
+    return render(request, 'AppAdministracion/inicio.html', {'avatar' : avatar,  'mensaje': f"Bienvenido {request.user.username}", 'user': request.user, 'login_success': True})
 
 
 #Login

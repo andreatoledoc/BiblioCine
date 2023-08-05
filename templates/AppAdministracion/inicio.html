@@ -19,8 +19,10 @@
         {% if login_success %}
             <div class="alert alert-success" role="alert">
                 {{ mensaje }}
-                {% if url %}
-                    <img height="40px" src="{{ url }}">
+                {% if avatar %}
+                    <img height="40px" src="{{ avatar.imagen.url }}">
+                {% else %}
+                    <img src="{% static '/assets/img/default.png' %}" class="img-fluid pt-1 me-1" style="max-height: 40px;">
                 {% endif %}
                 <h3> Que bueno verte {{ user.username }}</h3>
             </div>
