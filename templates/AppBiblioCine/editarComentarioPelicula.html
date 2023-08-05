@@ -5,7 +5,7 @@
 {% block CAMBIOS %}
 
     <!-- Aqui va el contenido que cambia-->
-    <h1>Formulario - Editar Libro</h1>
+    <h1>Formulario - Editar Pelicula</h1>
 
     {% if miFormulario.errors %}
 
@@ -21,7 +21,6 @@
         </table>
         <input type="submit", value="Enviar">
 
-        <a href="{% url 'LeerComentariosLibros' libro.id %}">Volver</a>
     </form>
 
     
